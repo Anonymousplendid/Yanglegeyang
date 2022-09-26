@@ -77,7 +77,7 @@ baddata = np.array(baddata) / 255
 baddata = baddata.reshape((hei, wid, 3))
 threshold_bad = 0.12
 
-problemimg = Image.open("label/problem.png")
+problemimg = Image.open("label/bad.png")
 wid, hei = problemimg.size
 problemdata = problemimg.getdata()
 problemdata = np.array(problemdata) / 255
