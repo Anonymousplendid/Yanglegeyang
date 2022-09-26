@@ -38,7 +38,7 @@ scale = w / sX
 label_num = 16
 
 start = 0.9
-ending = 0.9
+ending = 0.75
 restart = 0.8
 bad = 0.71
 upcrop = 150 # for recognizing light
@@ -254,7 +254,6 @@ def get_img(hwnd, pos):
         t = datetime.datetime.now().strftime('%b%d.%H-%M-%S')
         img = img.resize((450,844))
         wid, hei = img.size
-        img.save("picture/{}.png".format(t))
         data = np.array(img)
         wid, hei = img.size
         data = data.reshape(hei, wid, 3)
@@ -276,7 +275,11 @@ def clickending(hwnd, pos):
         win32gui.SendMessage(hwnd, win32con.WM_SYSCOMMAND, win32con.SC_RESTORE, 0)
         win32gui.SetForegroundWindow(hwnd)
         time.sleep(0.1)
-        MouseClick((955, 704))
+        x1, y1, x2, y2 = pos
+        posx = (x2 + x1) / 2
+        posy = ending * (y2 - y1) + y1
+        MouseClick((posx, posy))
+        # MouseClick((955, 704))
 
 def clickrestart(hwnd, pos):
     if hwnd:
@@ -292,7 +295,10 @@ def clickbad(hwnd, pos):
         win32gui.SendMessage(hwnd, win32con.WM_SYSCOMMAND, win32con.SC_RESTORE, 0)
         win32gui.SetForegroundWindow(hwnd)
         time.sleep(0.5)
-        MouseClick((1103, 318))
+        x1, y1, x2, y2 = pos
+        posx = (x2 + x1) / 2
+        posy = bad * (y2 - y1) + y1
+        MouseClick((posx, posy))
 
 def clickproblem():
     MouseClick((1217, 306))
@@ -304,9 +310,7 @@ def get_obs(hwnd, pos):
     img_data = img_data[upcrop:downcrop]
     posmap = dict()
     for i in tqdm(range(label_num)):
-        print("before getindex_{}".format(i))
         cur_index = get_index(img_data, i)
-        print("get_index_{} done".format(i))
         for j in range(len(cur_index)):
             cur_index[j][0] += 150
             temp = cur_index[j][0]

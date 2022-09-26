@@ -6,7 +6,6 @@ import time
 import datetime
 from PIL import Image, ImageGrab
 from utils import *
-import logging
 label_num = 16
 waiting_time = 2.2
 stopping_time_for_next_step = 0.5
@@ -27,12 +26,6 @@ class YangLeGeYangEnv(Env):
         if not self.hwnd:
             print("羊了个羊未打开")
         t = datetime.datetime.now().strftime('%b%d.%H-%M-%S')
-        logger = logging.getLogger(t + "env")
-        logger.setLevel(logging.INFO)
-        fh = logging.FileHandler("log/" + t + "env" + ".txt")
-        fh.setLevel(logging.INFO)
-        logger.addHandler(fh)
-        self.logger = logger
 
     def get_first_level(self):
         for i in range(2):
@@ -59,9 +52,9 @@ class YangLeGeYangEnv(Env):
         if delta < threshold_restart:
             clickrestart(self.hwnd, self.pos)
         delta = loss_mse(img, endingdata)
-        print("restart delta, ", delta)
+        # print("restart delta, ", delta)
         if delta < threshold_ending:
-            print("restart!")
+            # print("restart!")
             time.sleep(1)
             clickending(self.hwnd, self.pos)
             time.sleep(2)
@@ -69,23 +62,22 @@ class YangLeGeYangEnv(Env):
             img = img/255
             delta = loss_mse(img, problemdata)
             if delta < threshold_problem:
-                print("click problem!")
+                # print("click problem!")
                 clickproblem()
             else:
                 delta = loss_mse(img, baddata)
                 if delta < threshold_bad:
-                    self.logger.info("bad ok!")
                     clickbad(self.hwnd, self.pos)
-            print("waiting for restart")
+            # print("waiting for restart")
             time.sleep(waiting_time)
             clickrestart(self.hwnd, self.pos)
         delta = loss_mse(img, restartdata)
         if delta < threshold_restart:
             clickrestart(self.hwnd, self.pos)
         delta = loss_mse(img, menudata)
-        print("menudelta: ", delta)
+        # print("menudelta: ", delta)
         if delta < threshold_menu:
-            print("menu!")
+            # print("menu!")
             clickstart(self.hwnd, self.pos)
         time.sleep(4)
         self.get_first_level()   
@@ -96,11 +88,6 @@ class YangLeGeYangEnv(Env):
         obs["Bright_Block"] = bright_obs
         obs["Dark_Block"] = dark_obs
         obs["Queue_Block"] = queue_obs
-        self.logger.info(t)
-        self.logger.info("Bright_Block: {}".format(str(bright_obs)))
-        self.logger.info("Dark_Block: {}".format(str(dark_obs)))
-        self.logger.info("Queue_Block: {}".format(str(queue_obs)))
-        self.logger.info("\n\n")
         return obs, 0, img_data
     
 
@@ -109,9 +96,9 @@ class YangLeGeYangEnv(Env):
         win32gui.SetForegroundWindow(self.hwnd)
         MouseClick(pos)
         time.sleep(0.5)
-        print("before obs")
+        # print("before obs")
         bright_obs, queue_obs, dark_obs, img_data, t = get_real_obs(self.hwnd, self.pos)
-        print("after obs")
+        # print("after obs")
         done = 0
         delta = loss_mse(img_data, endingdata)
         if delta < threshold_ending:
@@ -131,11 +118,6 @@ class YangLeGeYangEnv(Env):
         obs["Bright_Block"] = bright_obs
         obs["Dark_Block"] = dark_obs
         obs["Queue_Block"] = queue_obs
-        self.logger.info(t)
-        self.logger.info("Bright_Block: {}".format(bright_obs))
-        self.logger.info("Dark_Block: {}".format(dark_obs))
-        self.logger.info("Queue_Block: {}".format(queue_obs))
-        self.logger.info("\n\n")
         return obs, done, img_data
 
 if __name__ == "__main__":
