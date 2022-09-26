@@ -93,7 +93,6 @@ threshold_restart = 0.12
 
 def getcards(im):
 #返回一个numpy数组，每一行包含：label,x,y,w,h,center_x,center_y
-#用法见52行
     cards = []
     flag = np.mean(np.abs(im - np.array([245,255,205])), 2) < 15#获取卡牌背景
     flag = np.array(flag, dtype='uint8')
@@ -124,7 +123,6 @@ def getcards(im):
 
 def getcards_dark(im):
 #返回一个numpy数组，每一行包含：label,x,y,w,h,center_x,center_y
-#用法见52行
     cards = []
     flag = np.mean(np.abs(im - np.array([147,153,123])), 2) < 10#获取卡牌背景
     flag = np.array(flag, dtype='uint8')
@@ -253,23 +251,14 @@ def get_img(hwnd, pos):
         y2 = y2 * scale
         time.sleep(0.1)
         img = ImageGrab.grab((x1, y1, x2, y2))
-        # wid, ori_hei = img.size
-        # upcrop = int(up * ori_hei)
-        # img = img.crop((0, upcrop, wid, ori_hei))
         t = datetime.datetime.now().strftime('%b%d.%H-%M-%S')
-        # img.save("picture/{}.png".format(t))
-        # print(img.size)
-        #input()
         img = img.resize((450,844))
         wid, hei = img.size
         img.save("picture/{}.png".format(t))
         data = np.array(img)
         wid, hei = img.size
         data = data.reshape(hei, wid, 3)
-        delta = loss_mse(data/255, endingdata)
-        # print(delta)
         return data, t
-        # print(delta)
     else:
         print("羊了个羊未打开！")
 
@@ -312,12 +301,7 @@ def get_obs(hwnd, pos):
     img_data, t = get_img(hwnd, pos)
     ori_img_data = copy.deepcopy(img_data)
     x1, y1, x2, y2 = pos
-    # plt.imshow(img_data)
-    # plt.show()
     img_data = img_data[upcrop:downcrop]
-    # print(img_data.shape)
-    # plt.imshow(img_data)
-    # plt.show()
     posmap = dict()
     for i in tqdm(range(label_num)):
         print("before getindex_{}".format(i))
@@ -346,8 +330,6 @@ def clickall(posmap):
 def get_real_obs(hwnd, pos):
     img_data, t = get_img(hwnd, pos)
     x1, y1, x2, y2 = pos
-    # plt.imshow(img_data)
-    # plt.show()
     main_data = img_data[upcrop:downcrop]
     queue_data = img_data[downcrop:]
     bright_cards = getcards(main_data)

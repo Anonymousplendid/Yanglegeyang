@@ -116,7 +116,6 @@ class YangLeGeYangEnv(Env):
         delta = loss_mse(img_data, endingdata)
         if delta < threshold_ending:
             done = 1
-            # time.sleep(2)
         delta = loss_mse(img_data, baddata)
         if delta < threshold_bad:
             done = 1
@@ -128,7 +127,6 @@ class YangLeGeYangEnv(Env):
             done = 1
         if done:
             time.sleep(1)
-        # print(bright_obs)
         obs = dict()
         obs["Bright_Block"] = bright_obs
         obs["Dark_Block"] = dark_obs
