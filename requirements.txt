@@ -1,0 +1,12 @@
+tensorflow
+numpy
+pywin32
+PIL
+logging
+cv2
+matplotlib
+tqdm
+scikit-image
+pickle
+random
+multiprocessing

@@ -1,12 +1,7 @@
-from PyQt5.QtWidgets import QApplication, QLabel
 import win32gui
 import sys
-import cv2
 import numpy as np
 import win32con
-import win32api
-import win32print
-from ctypes import windll
 import time
 import datetime
 from PIL import Image, ImageGrab

@@ -1,6 +1,5 @@
 
 import queue
-from PyQt5.QtWidgets import QApplication, QLabel
 import win32gui
 import sys
 import cv2
@@ -46,7 +45,7 @@ upcrop = 150 # for recognizing light
 downcrop = 560
 label_size = 60
 step = 2
-# TODO: a menu model and a corresponding threshold
+# a menu model and a corresponding threshold
 menuimg = Image.open("label/menu.png")
 wid, hei = menuimg.size
 menudata = menuimg.getdata()
@@ -54,7 +53,7 @@ menudata = np.array(menudata) / 255
 menudata = menudata.reshape((hei, wid, 3))
 threshold_menu = 0.12
 
-# TODO: a ending model and restart model and corresponding threshold
+# a ending model and restart model and corresponding threshold
 endingimg = Image.open("label/ending.png")
 wid, hei = endingimg.size
 endingdata = endingimg.getdata()
@@ -62,7 +61,7 @@ endingdata = np.array(endingdata) / 255
 endingdata = endingdata.reshape((hei, wid, 3))
 threshold_ending = 0.12
 
-# TODO: a done signal image
+# a done signal image
 doneimg = Image.open("label/done.png")
 wid, hei = doneimg.size
 donedata = doneimg.getdata()
@@ -70,7 +69,7 @@ donedata = np.array(donedata) / 255
 donedata = donedata.reshape((hei, wid, 3))
 threshold_done = 0.12
 
-# TODO: a bad image model
+# a bad image model
 badimg = Image.open("label/bad.png")
 wid, hei = badimg.size
 baddata = badimg.getdata()
