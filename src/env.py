@@ -75,9 +75,7 @@ class YangLeGeYangEnv(Env):
         if delta < threshold_restart:
             clickrestart(self.hwnd, self.pos)
         delta = loss_mse(img, menudata)
-        # print("menudelta: ", delta)
         if delta < threshold_menu:
-            # print("menu!")
             clickstart(self.hwnd, self.pos)
         time.sleep(4)
         self.get_first_level()   

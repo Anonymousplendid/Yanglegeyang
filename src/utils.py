@@ -13,7 +13,6 @@ import datetime
 import matplotlib.pyplot as plt
 from PIL import Image, ImageGrab
 import copy
-from tqdm import tqdm
 from skimage.metrics import structural_similarity
 
 class AverageMeter(object):
@@ -51,7 +50,7 @@ wid, hei = menuimg.size
 menudata = menuimg.getdata()
 menudata = np.array(menudata) / 255
 menudata = menudata.reshape((hei, wid, 3))
-threshold_menu = 0.12
+threshold_menu = 0.2
 
 # a ending model and restart model and corresponding threshold
 endingimg = Image.open("label/ending.png")
@@ -309,7 +308,7 @@ def get_obs(hwnd, pos):
     x1, y1, x2, y2 = pos
     img_data = img_data[upcrop:downcrop]
     posmap = dict()
-    for i in tqdm(range(label_num)):
+    for i in range(label_num):
         cur_index = get_index(img_data, i)
         for j in range(len(cur_index)):
             cur_index[j][0] += 150
