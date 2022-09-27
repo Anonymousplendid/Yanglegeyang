@@ -10,14 +10,9 @@ env = YangLeGeYangEnv()
 state, done, info = env.reset() # state['Bright_Block']; state['Dark_Block']; state['Queue_Block']
 Queue_Block_len = len(state['Queue_Block'])
 step = 0
-print("reset done!")
 q = []
 reward_sum = 0
 while True:
-    print(q)
-    print(state['Bright_Block'])
-    print(state['Dark_Block'])
-    print(state['Queue_Block'])
     if len(q) != 0:
         action = (q[0][0], q[0][1])
         q.pop(0)
