@@ -1,14 +1,12 @@
 from env import YangLeGeYangEnv
 import random
 import numpy as np
-import logging
 from utils import *
 
 step_watcher = AverageMeter()
 score = AverageMeter()
 
 env = YangLeGeYangEnv()
-logger = env.logger
 state, done, info = env.reset() # state['Bright_Block']; state['Dark_Block']; state['Queue_Block']
 Queue_Block_len = len(state['Queue_Block'])
 step = 0
@@ -39,14 +37,12 @@ while True:
                 for j in range(3-dd[state['Bright_Block'][i][2]]):
                     q.append(d[state['Bright_Block'][i][2]][j])
                 break
-        logger.info(q)
         if len(q)==0:
             idx = np.random.randint(len(state["Bright_Block"]))
             action = (state["Bright_Block"][idx][0], state["Bright_Block"][idx][1])
         else:
             action = (q[0][0], q[0][1])
             q.pop(0)
-    logger.info(q)
     state, done, info = env.step(action)
     if len(state['Queue_Block']) < Queue_Block_len:
         reward = 1
@@ -59,10 +55,8 @@ while True:
         score.update(reward_sum)
         reward_sum = 0
         step_watcher.update(step)
-        logger.info("avg: {} for time {}".format(step_watcher.avg, step_watcher.cnt))
-        print("avg: {} for time {}".format(step_watcher.avg, step_watcher.cnt))
-        logger.info("avg: {} for time {}".format(score.avg, score.cnt))
-        print("avg: {} for time {}".format(score.avg, score.cnt))
+        print("avg step {} for time {}".format(step_watcher.avg, step_watcher.cnt))
+        print("avg score {} for time {}".format(score.avg, score.cnt))
         state, done, info = env.reset()
 
  

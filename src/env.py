@@ -62,7 +62,6 @@ class YangLeGeYangEnv(Env):
             img = img/255
             delta = loss_mse(img, problemdata)
             if delta < threshold_problem:
-                # print("click problem!")
                 clickproblem()
             else:
                 delta = loss_mse(img, baddata)
